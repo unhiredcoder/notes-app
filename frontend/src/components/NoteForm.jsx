@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Save, X } from 'lucide-react';
 
 const NoteForm = ({ initialData = { title: '', content: '' }, onSubmit, onCancel }) => {
   const [title, setTitle] = useState(initialData.title);
@@ -13,7 +14,6 @@ const NoteForm = ({ initialData = { title: '', content: '' }, onSubmit, onCancel
     }
     onSubmit(title, content);
     if (!initialData._id) {
-      // Reset form only for new note
       setTitle('');
       setContent('');
     }
@@ -21,9 +21,13 @@ const NoteForm = ({ initialData = { title: '', content: '' }, onSubmit, onCancel
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-lg p-6 mb-6">
-      {error && <div className="text-red-500 mb-2">{error}</div>}
-      <div className="mb-4">
+    <form onSubmit={handleSubmit} className="space-y-4">
+      {error && (
+        <div className="bg-red-50 border-l-4 border-red-500 text-red-700 px-4 py-2 rounded">
+          {error}
+        </div>
+      )}
+      <div>
         <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
           Title
         </label>
@@ -32,11 +36,11 @@ const NoteForm = ({ initialData = { title: '', content: '' }, onSubmit, onCancel
           id="title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
           placeholder="Note title"
         />
       </div>
-      <div className="mb-4">
+      <div>
         <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-1">
           Content
         </label>
@@ -45,25 +49,27 @@ const NoteForm = ({ initialData = { title: '', content: '' }, onSubmit, onCancel
           value={content}
           onChange={(e) => setContent(e.target.value)}
           rows="4"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition resize-none"
           placeholder="Write your note..."
         />
       </div>
-      <div className="flex justify-end space-x-2">
+      <div className="flex justify-end space-x-3">
         {onCancel && (
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100"
+            className="flex items-center space-x-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition"
           >
-            Cancel
+            <X className="h-4 w-4" />
+            <span>Cancel</span>
           </button>
         )}
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+          className="flex items-center space-x-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
         >
-          {initialData._id ? 'Update' : 'Add'} Note
+          <Save className="h-4 w-4" />
+          <span>{initialData._id ? 'Update' : 'Save'} Note</span>
         </button>
       </div>
     </form>

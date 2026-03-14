@@ -11,8 +11,10 @@ const app = express();
 connectDB();
 
 // Middleware
-app.use(cors()); // Enable CORS for frontend
-app.use(express.json()); // Parse JSON bodies
+app.use(cors(
+  {origin: process.env.FRONTEND_URL || 'http://localhost:5173'}
+)); 
+app.use(express.json()); 
 
 // Routes
 app.use('/api/auth', authRoutes);
